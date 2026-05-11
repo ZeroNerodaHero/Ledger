@@ -1,0 +1,20 @@
+{
+  "name": "ledger-api-mock",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx src/index.ts",
+    "migrate": "tsx scripts/migrate.ts"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "pino": "^9.11.0",
+    "postgres": "3.4.7"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.7",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3"
+  }
+}
