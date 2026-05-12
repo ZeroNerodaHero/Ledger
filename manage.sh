@@ -29,6 +29,28 @@ usage() {
 }
 
 as_root() {
+  local target_user=""
+  if [[ "${1:-}" == "-u" ]]; then
+    target_user="${2:-}"
+    shift 2
+  fi
+
+  if [[ -n "$target_user" ]]; then
+    if [[ "$(id -u)" -eq 0 ]]; then
+      if command -v runuser >/dev/null 2>&1; then
+        runuser -u "$target_user" -- "$@"
+      else
+        su -s /bin/bash "$target_user" -c "$(printf '%q ' "$@")"
+      fi
+    elif command -v sudo >/dev/null 2>&1; then
+      sudo -u "$target_user" "$@"
+    else
+      echo "This operation needs sudo to run as $target_user: $*"
+      exit 1
+    fi
+    return
+  fi
+
   if [[ "$(id -u)" -eq 0 ]]; then
     "$@"
   elif command -v sudo >/dev/null 2>&1; then
