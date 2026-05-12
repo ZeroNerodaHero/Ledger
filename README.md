@@ -21,28 +21,39 @@ export DATABASE_URL='postgresql://ledger:ledger_dev_password@localhost:5432/ledg
 
 ## All-in-One Manager
 
-Run everything (migrate + API + frontend + Caddy reverse proxy):
+Run everything (install deps + provision local Postgres + migrate + API + frontend + Caddy reverse proxy):
 
 ```bash
-export DATABASE_URL='postgresql://ledger:ledger_dev_password@localhost:5432/ledger'
-./manage start
+./manage.sh start
 ```
 
 Check status:
 
 ```bash
-./manage status
+./manage.sh status
 ```
 
 Stop all:
 
 ```bash
-./manage stop
+./manage.sh stop
 ```
 
 Notes:
 - Caddy listens on ports `80` and `443` and proxies to frontend `3000`.
-- If Caddy is missing, `./manage start` attempts install via Homebrew on macOS.
+- `manage.sh` is designed for Linux droplets and auto-installs missing packages with `apt-get`.
+
+## Linux Droplet Startup
+
+```bash
+./manage.sh start
+```
+
+This script:
+- installs dependencies
+- provisions local Postgres and runs migrations
+- starts API + frontend
+- installs/starts Caddy on ports `80` and `443`
 
 ## Endpoints
 - Web: `http://localhost:3000`
